@@ -1,5 +1,16 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+.w3-card-4
+      header.w3-container.w3-teal
+          h1 file List
+      .w3-container
+            table.w3-table-all
+                tr
+                    th Name 
+                each file in file_list
+                    tr
+                        td=file['name']
+                          
+  footer.w3-container.w3-teal(position='fixed')
+      address HTTP File Manager

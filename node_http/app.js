@@ -3,9 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var fs = require('fs')
+var axios = require('axios')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var basedir = '/var/www'
 
 var app = express();
 
@@ -19,12 +20,48 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//app.use('/', indexRouter);
+//app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+// default route
+app.use((req, res) => {
+    if (req.cookies.user && req.cookies.token){
+        axios.post('http://auth.com/verify-access',{
+            'user': req.cookies.user,
+            'token': req.cookies.token,
+            'resource': req.url
+        }).then(response => {
+            console.log(response)
+            if (response.status == 200){
+                let basepath = basedir + req.url
+
+                fs.lstat(basepath, (err, stat) => {
+                    if (err){
+                        res.jsonp(err)
+                    }
+
+                    else if (stat.isDirectory()){
+                        fs.readdir(basepath, (err, files) => {
+                            res.jsonp(files)
+                        })
+                    }
+
+                    else if (stat.isFile()){
+                        res.download(basepath)
+                    }
+                })
+            }
+            else {
+                console.log(response.status)
+                res.send(403)
+            }
+        })
+    }
+    else {
+        res.redirect('http://auth.com')
+        //No servidor fazer a autenticacao com usuário e senha e setar os cookies e
+        //redirecionar de volta para a app
+    }
 });
 
 // error handler
