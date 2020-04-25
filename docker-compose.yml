@@ -3,46 +3,66 @@ version: "3"
 services:
   # FTPSERVER START HERE!
   ftp:
-    container_name: ftpservernv
-    image: matheusgoncalves/ftpserver
+    container_name: ftp
+    image: matheusgoncalves/ftpserver:latest
     restart: always
     ports:
       - "20:20"
       - "21:21"
       - "22:22"
     volumes:
-      - ftphttp
+      - ftphttp:/var
     environment:
-      FTP_USER: "uminho"
-      FTP_PASS: "123"
+      FTP_USER: "admin"
+      FTP_PASS: "admin"
     networks:
       - ftpauth
 
   # WEBSERVER START HERE
+  # apache image for testing
   http:
-    container_name: webservernv
-    image: nginx
+    container_name: apache
+    image: apache:2
     restart: always
-    ports:
-      - "8000:80"
     volumes:
-      - ftphttp
-    # - ./http:/usr/share/nginx/html
+      - ftphttp:/var
     networks:
       - httpauth
+      - nginx
 
   # DB START HERE
   db:
-    container_name: dbservernv
-    image: mongo
+    container_name: mongo
+    image: mongo:4.2-bionic
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     volumes:
-      - dbvolume
+      - ./db:/data/db
     networks:
       - dbauth
+
+  nginx:
+    container_name: nginx
+    image: nginx:1.18-alpine
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - nginx
+
+  #auth:
+  #  container_name: nginx
+  #  image: nginx
+  #  restart: always
+  #  networks:
+  #    - httpauth
+  #    - ftpauth
+  #    - nginx
 
 volumes:
   ftphttp:
@@ -52,3 +72,4 @@ networks:
   ftpauth:
   httpauth:
   dbauth:
+  nginx:
