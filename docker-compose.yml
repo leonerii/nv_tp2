@@ -22,7 +22,7 @@ services:
   # apache image for testing
   http:
     container_name: apache
-    image: apache:2
+    image: httpd:2
     restart: always
     volumes:
       - ftphttp:/var
