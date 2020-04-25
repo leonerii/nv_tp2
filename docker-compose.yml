@@ -1,0 +1,54 @@
+version: "3"
+
+services:
+  # FTPSERVER START HERE!
+  ftp:
+    container_name: ftpservernv
+    image: matheusgoncalves/ftpserver
+    restart: always
+    ports:
+      - "20:20"
+      - "21:21"
+      - "22:22"
+    volumes:
+      - ftphttp
+    environment:
+      FTP_USER: "uminho"
+      FTP_PASS: "123"
+    networks:
+      - ftpauth
+
+  # WEBSERVER START HERE
+  http:
+    container_name: webservernv
+    image: nginx
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ftphttp
+    # - ./http:/usr/share/nginx/html
+    networks:
+      - httpauth
+
+  # DB START HERE
+  db:
+    container_name: dbservernv
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - dbvolume
+    networks:
+      - dbauth
+
+volumes:
+  ftphttp:
+  dbvolume:
+
+networks:
+  ftpauth:
+  httpauth:
+  dbauth:
