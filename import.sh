@@ -1,3 +1,1 @@
-mongod & 
 mongoimport -d virt -c users --jsonArray --file /opt/dbimport.json
-mongo
