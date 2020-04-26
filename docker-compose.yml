@@ -11,7 +11,7 @@ services:
       - "21:21"
       - "22:22"
     volumes:
-      - ftphttp:/var
+      - ftphttp:/opt
     environment:
       FTP_USER: "admin"
       FTP_PASS: "admin"
@@ -21,11 +21,11 @@ services:
   # WEBSERVER START HERE
   # apache image for testing
   http:
-    container_name: apache
-    image: httpd:2
+    container_name: httpserver
+    image: leonerii/httpserver:v1
     restart: always
     volumes:
-      - ftphttp:/var
+      - ftphttp:/var/www
     networks:
       - httpauth
       - nginx
@@ -40,8 +40,11 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
     volumes:
       - ./db:/data/db
+      - ./dbimport.json:/opt/dbimport.json
     networks:
       - dbauth
+    onrun:
+      - mongoimport --db virt -c users --jsonArray --file /opt/dbimport.json
 
   nginx:
     container_name: nginx
@@ -57,14 +60,15 @@ services:
     networks:
       - nginx
 
-  #auth:
-  #  container_name: nginx
-  #  image: nginx
-  #  restart: always
-  #  networks:
-  #    - httpauth
-  #    - ftpauth
-  #    - nginx
+  auth:
+    container_name: auth
+    image: leonerii/authserver:v1.1
+    restart: always
+    networks:
+      - httpauth
+      - ftpauth
+      - dbauth
+      - nginx
 
 volumes:
   ftphttp:
