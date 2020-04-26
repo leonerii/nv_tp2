@@ -5,15 +5,23 @@ var TokenGenerator = require('uuid-token-generator');
 
 
 /* GET users listing. */
-router.get('/login', function(req, res, next) {
-    Users.get(req.query.username).then(
+router.post('/login', function(req, res, next) {
+    Users.get(req.body.username).then(
         user => {
-            if (req.query.password == user.password){
-                let token = tokgen2 = new TokenGenerator(256, TokenGenerator.BASE62);
-                res.cookie('token', token)
-                res.cookie('user', req.query.username)
-                
-                res.redirect('http://httpserver.com/')
+            if (req.body.password == user.password){
+                let token = new TokenGenerator(256, TokenGenerator.BASE62);
+
+                Users.update_token(req.body.username, token.baseEncoding)
+                .then(() => {
+                    res.cookie('token', token.baseEncoding, {expire: new Date() + 300000})
+                    .cookie('user', req.body.username)
+                    .redirect(301, 'http://localhost:3000')
+                    console.log('redirect')
+                })
+                .catch(err => {
+                    console.log(err)
+                    res.jsonp(err)
+                })
             }
             else {
                 res.sendStatus(403).end()
@@ -27,7 +35,7 @@ router.get('/login', function(req, res, next) {
 });
 
 router.post('/verify-access', (req, res) => {
-    Users.get(req.query.username).then(user => {
+    Users.get(req.body.username).then(user => {
         if (req.cookies.token == user.token){   
             user.role.forEach(role => {
                 role.resource.forEach(resource => {

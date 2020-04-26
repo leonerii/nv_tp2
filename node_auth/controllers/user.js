@@ -11,6 +11,10 @@ module.exports.get = (username) => {
     return User.findById(username).exec()
 }
 
+module.exports.update_token = (username, token) => {
+    return User.updateOne({_id: username}, {$set: {token: token}}).exec()
+}
+
 module.exports.create = (username, password) => {
     var new_user = User({
         _id: username,

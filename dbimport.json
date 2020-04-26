@@ -1,0 +1,47 @@
+[
+    {
+        "_id": "leonardo.neri",
+        "password": "leo123",
+        "admin": true,
+        "roles": [
+            {
+                "action": [
+                    "get",
+                    "list"
+                ],
+                "resource": [
+                    "/html/primary/.*"
+                ]
+            }
+        ]
+    },
+    {
+        "_id": "matheus.goncalves",
+        "password": "matheus123",
+        "roles": [
+            {
+                "action": [
+                    "get",
+                    "list"
+                ],
+                "resource": [
+                    "/html/public/.*"
+                ]
+            }
+        ]
+    },
+    {
+        "_id": "igor.virgilio",
+        "password": "igor123",
+        "roles": [
+            {
+                "action": [
+                    "list"
+                ],
+                "resource": [
+                    "/html/public/.*"
+                ]
+            }
+        ]
+    }
+]

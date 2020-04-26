@@ -5,4 +5,4 @@ var roleSchema = new mongoose.Schema({
     resource: String
 })
 
-module.exports = mongoose.model('role', roleSchema, 'user');
+module.exports = mongoose.model('role', roleSchema, 'users');

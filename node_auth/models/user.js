@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 
 var roleSchema = new mongoose.Schema({
     action: [String],
-    resource: String
+    resource: [String]
 })
 
 var userSchema = new mongoose.Schema({
@@ -13,4 +13,4 @@ var userSchema = new mongoose.Schema({
     admin: Boolean
 });
 
-module.exports = mongoose.model('user', userSchema);
+module.exports = mongoose.model('users', userSchema);

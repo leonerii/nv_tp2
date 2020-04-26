@@ -8,7 +8,7 @@ var mongoose = require('mongoose')
 var indexRouter = require('./routes/index');
 var apiRouter = require('./routes/api');
 
-mongoose.connect('mongodb://mongo:27017/users', {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect('mongodb://localhost:27017/virt', {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("Mongo ready: " + mongoose.connection.readyState))
     .catch(() => console.log("Mongo: erro na conexao."))
 

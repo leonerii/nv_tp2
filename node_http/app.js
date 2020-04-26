@@ -42,7 +42,7 @@ app.use((req, res) => {
 
                     else if (stat.isDirectory()){
                         fs.readdir(basepath, (err, files) => {
-                            res.jsonp(files)
+                            res.render('index', {file_list: files})
                         })
                     }
 
