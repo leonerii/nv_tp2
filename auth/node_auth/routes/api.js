@@ -15,7 +15,7 @@ router.post('/login', function(req, res, next) {
                 .then(() => {
                     res.cookie('token', token.baseEncoding, {expire: new Date() + 300000})
                     .cookie('user', req.body.username)
-                    .redirect(301, 'http://localhost:3001')
+                    .redirect(301, 'https://www.virtualizacao.com')
                 })
                 .catch(err => {
                     console.log(err)
@@ -41,26 +41,18 @@ router.post('/verify-access', (req, res) => {
 
             user.roles.forEach(role => {
                 role.resource.forEach(resource => {
-                    let result = req.body.resource.match(resource)
-                    console.log('regex result: ' + result)
-                    console.log('role resource: ' + resource)
-                    console.log('url: ' + req.body.resource)
-
-                    if (result)
+                    if (req.body.resource.match(resource))
                         if (role.action.includes(req.body.action)){
                             res.jsonp({'status': 200})
                             flag = false
                         }
                 })
             })
-            
             if (flag)
                 res.jsonp({'status': 403})
         }
-        else{
-            console.log('token não bate')
+        else
             res.jsonp({'status': 403})
-        }         
     }).catch(
         err => {
             console.log(err)

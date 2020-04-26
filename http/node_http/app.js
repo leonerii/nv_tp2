@@ -38,7 +38,7 @@ app.use((req, res) => {
 
             let action = stat.isFile() ? 'get' : 'list';
 
-            axios.post('http://localhost:3000/api/verify-access',{
+            axios.post('https://virtualizacao/auth/api/verify-access',{
                 'username': req.cookies.user,
                 'token': req.cookies.token,
                 'resource': req.url,
@@ -67,11 +67,8 @@ app.use((req, res) => {
             })
         })  
     }
-    else {
-        res.redirect('http://localhost:3000')
-        //No servidor fazer a autenticacao com usuário e senha e setar os cookies e
-        //redirecionar de volta para a app
-    }
+    else 
+        res.redirect('https://www.virtualizacao.com/auth')
 });
 
 // error handler
