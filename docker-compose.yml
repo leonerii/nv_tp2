@@ -7,9 +7,9 @@ services:
     image: matheusgoncalves/ftpserver:latest
     restart: always
     ports:
-      - "20:20"
-      - "21:21"
-      - "22:22"
+      - "2000:20"
+      - "2100:21"
+      - "2200:22"
     volumes:
       - ftphttp:/opt
     environment:
@@ -43,8 +43,8 @@ services:
       - ./dbimport.json:/opt/dbimport.json
     networks:
       - dbauth
-    onrun:
-      - mongoimport --db virt -c users --jsonArray --file /opt/dbimport.json
+    command: bash -c "mongod && sleep 1 && mongoimport --db virt -c users --jsonArray --file /opt/dbimport.json"
+    
 
   nginx:
     container_name: nginx
