@@ -59,7 +59,7 @@ services:
 
   auth:
     container_name: auth
-    image: leonerii/authserver:v1.3
+    image: leonerii/authserver:v1.4
     restart: always
     networks:
       - httpauth
