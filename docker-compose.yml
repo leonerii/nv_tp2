@@ -22,7 +22,7 @@ services:
   # apache image for testing
   http:
     container_name: httpserver
-    image: httpserver:v1.1
+    image: leonerii/httpserver:v1.1
     restart: always
     volumes:
       - ftphttp:/var/www
@@ -59,7 +59,7 @@ services:
 
   auth:
     container_name: auth
-    image: authserver:v1.3
+    image: leonerii/authserver:v1.3
     restart: always
     networks:
       - httpauth
