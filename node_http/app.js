@@ -7,6 +7,7 @@ var fs = require('fs')
 var axios = require('axios')
 
 var basedir = '/var/www'
+var indexRouter = require('./routes/index');
 
 var app = express();
 
@@ -20,45 +21,54 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', indexRouter);
-//app.use('/users', usersRouter);
+app.use('/', indexRouter);
 
 // default route
 app.use((req, res) => {
     if (req.cookies.user && req.cookies.token){
-        axios.post('http://auth.com/verify-access',{
-            'user': req.cookies.user,
-            'token': req.cookies.token,
-            'resource': req.url
-        }).then(response => {
-            console.log(response)
-            if (response.status == 200){
-                let basepath = basedir + req.url
+        let basepath = basedir + req.url
 
-                fs.lstat(basepath, (err, stat) => {
-                    if (err){
-                        res.jsonp(err)
-                    }
+        console.log('URL: ' + req.url)
+        console.log('BASEPATH: ' + basepath)
+        
+        fs.lstat(basepath, (err, stat) => {
+            if (err){
+                res.jsonp(err)
+            }
 
-                    else if (stat.isDirectory()){
+            let action = stat.isFile() ? 'get' : 'list';
+
+            axios.post('http://localhost:3000/api/verify-access',{
+                'username': req.cookies.user,
+                'token': req.cookies.token,
+                'resource': req.url,
+                'action': action
+            }).then(response => {
+                if (response.data.status == 200){
+
+                    if (action == 'list'){
+                        if (req.url[req.url.length - 1] != '/')
+                            req.url += '/'
+
                         fs.readdir(basepath, (err, files) => {
-                            res.render('index', {file_list: files})
+                            res.render('index', {file_list: files, path: req.url})
                         })
                     }
 
-                    else if (stat.isFile()){
+                    else if (action == 'get'){
                         res.download(basepath)
                     }
-                })
-            }
-            else {
-                console.log(response.status)
-                res.send(403)
-            }
-        })
+                }
+                else 
+                    res.sendStatus(403)
+            }).catch(err => {
+                console.log(err)
+                res.jsonp(err)
+            })
+        })  
     }
     else {
-        res.redirect('http://auth.com')
+        res.redirect('http://localhost:3000')
         //No servidor fazer a autenticacao com usuário e senha e setar os cookies e
         //redirecionar de volta para a app
     }

@@ -1,16 +1,17 @@
 extends layout
 
 block content
-.w3-card-4
-      header.w3-container.w3-teal
-          h1 file List
-      .w3-container
-            table.w3-table-all
-                tr
-                    th Name 
-                each file in file_list
+    .w3-card-4
+        header.w3-container.w3-teal
+            h1 File List
+        .w3-container
+                table.w3-table-all
                     tr
-                        td=file
+                        th Name 
+                    each file in file_list
+                        tr
+                            td
+                                a(href="http://localhost:3001" + path + file) !{file}
                           
-  footer.w3-container.w3-teal(position='fixed')
-      address HTTP File Manager
+    footer.w3-container.w3-teal(position='fixed')
+        address HTTP File Manager

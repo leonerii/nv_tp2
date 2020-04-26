@@ -4,11 +4,8 @@ var fs = require('fs')
 var basedir = '/var/www/'
 
 /* GET home page. */
-router.get('/:id', function(req, res, next) {
-    fs.readdir(basedir, (err, files) => {
-        console.log(req.params.id)
-        res.jsonp(files)
-    })
+router.get('/favicon.ico', function(req, res, next) {
+    res.download(basedir + 'favicon.ico')
 });
 
 

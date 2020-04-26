@@ -10,7 +10,7 @@
                     "list"
                 ],
                 "resource": [
-                    "/html/primary/.*"
+                    "/.*"
                 ]
             }
         ]
@@ -25,7 +25,9 @@
                     "list"
                 ],
                 "resource": [
-                    "/html/public/.*"
+                    "/html/public/?.*",
+                    "/",
+                    "/html/?"
                 ]
             }
         ]
@@ -39,7 +41,9 @@
                     "list"
                 ],
                 "resource": [
-                    "/html/public/.*"
+                    "/html/public/?.*",
+                    "/",
+                    "/html/?"
                 ]
             }
         ]
