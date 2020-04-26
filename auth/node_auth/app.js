@@ -10,13 +10,14 @@ var apiRouter = require('./routes/api');
 
 mongoose.connect('mongodb://mongo:27017/virt', {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => console.log("Mongo ready: " + mongoose.connection.readyState))
-    .catch(() => console.log("Mongo: erro na conexao."))
+    .catch((err) => console.log(err))
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.set('trust proxy', 'loopback, linklocal, uniquelocal')
 
 app.use(logger('dev'));
 app.use(express.json());

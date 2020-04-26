@@ -22,7 +22,7 @@ services:
   # apache image for testing
   http:
     container_name: httpserver
-    image: leonerii/httpserver:v1
+    image: httpserver:v1.1
     restart: always
     volumes:
       - ftphttp:/var/www
@@ -35,15 +35,12 @@ services:
     container_name: mongo
     image: mongo:4.2-bionic
     restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
     volumes:
       - ./db:/data/db
       - ./dbimport.json:/opt/dbimport.json
+      - ./import.sh:/docker-entrypoint-initdb.d/import.sh
     networks:
       - dbauth
-    command: bash -c "mongod && sleep 1 && mongoimport --db virt -c users --jsonArray --file /opt/dbimport.json"
     
 
   nginx:
@@ -51,7 +48,7 @@ services:
     image: nginx:1.18-alpine
     restart: always
     ports:
-      - "81:80"
+      - "80:80"
       - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
@@ -62,7 +59,7 @@ services:
 
   auth:
     container_name: auth
-    image: leonerii/authserver:v1.1
+    image: authserver:v1.3
     restart: always
     networks:
       - httpauth

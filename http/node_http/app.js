@@ -14,6 +14,7 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+app.set('trust proxy', 'loopback, linklocal, uniquelocal')
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -38,7 +39,7 @@ app.use((req, res) => {
 
             let action = stat.isFile() ? 'get' : 'list';
 
-            axios.post('https://virtualizacao/auth/api/verify-access',{
+            axios.post('http://auth:3000/api/verify-access',{
                 'username': req.cookies.user,
                 'token': req.cookies.token,
                 'resource': req.url,
