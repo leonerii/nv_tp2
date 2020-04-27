@@ -20,7 +20,7 @@ Para utilizar esse projeto, depois de já possuir os ficheiros do repositório n
 ``` bash
 docker-compose up -d
 ``` 
-<br/><br/>
+
 #### _Possíveis Problemas_
 _No docker-compose foram expostas as portas HTTP, HTTPS e FTP, tanto para o host quanto para o conteiner, no formato **porta_host:porta:conteiner**, porém caso estas portas já estejam sendo utilizadas no host, será necessário alterá-las ou finalizar o(s) processo(s) que utilizam tais portas._
 
