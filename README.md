@@ -1,30 +1,29 @@
 
 # Trabalho Prático 2 - Virtualização de Redes
-Universidade do Minho
+## _Universidade do Minho_
 
 ### Autores:
-- A80056 – Leonardo Neri
-- PG39254 – Igor Virgílio Araújo
-- PG39255 – Matheus dos Santos Gonçalves
+- _A80056 – Leonardo Neri_
+- _PG39254 – Igor Virgílio Araújo_
+- _PG39255 – Matheus dos Santos Gonçalves_
 
 
 ## Utilização
-### criação de diretório
+### Criação de diretório
 Inicialmente, deve-se clonar esse repositório para a máquina de testes. Para tal basta executar o comando:
 ``` bash
 git clone https://github.com/leonerii/nv_tp2/
 ``` 
 
 ### Criação de conteiners e ambiente de teste
-Para utilizar esse projeto, depois de já possuir os ficheiros do repositório na máquina de testes é necessário criar o ambiente Docker. Para isso execute o comando em um terminal que possua tais arquivos deste repositório dentro do diretório _**/nv_tps**_:
+Para utilizar esse projeto, depois de já possuir os ficheiros do repositório na máquina de testes é necessário criar o ambiente Docker. Para isso aceda ao diretório _**/nv_tps**_ e execute o comando abaixo em um terminal:
 ``` bash
 docker-compose up -d
 ``` 
 #### _Possíveis Problemas_
-_No docker-compose foram expostas as portas HTTP e HTTPS, tanto para o host quanto para o conteiner, no formato **porta_host:porta:conteiner**, porém caso estas portas já estejam sendo utilizadas no host, será necessário alterá-las ou finalizar o(s) processo(s) que utilizam tais portas._
+_No docker-compose foram expostas as portas HTTP, HTTPS e FTP, tanto para o host quanto para o conteiner, no formato **porta_host:porta:conteiner**, porém caso estas portas já estejam sendo utilizadas no host, será necessário alterá-las ou finalizar o(s) processo(s) que utilizam tais portas._
 
-
-Em seguida será necessário adicionar uma entrada na resolução de nomes local do host de teste para que o domínio que foi utilizado para aceder a interface Web do ambiente possa ser utilizado. Considerando que esteja em um ambiente Linux, edite o ficheiro _**/etc/hosts**_, adicionando a seguinte linha:
+Em seguida será necessário adicionar uma entrada na resolução de nomes local do host de teste para que o domínio que foi utilizado para aceder a interface Web do ambiente possa ser utilizado. Considerando que esteja em um ambiente Linux, edite o ficheiro _**/etc/hosts**_, adicionando a seguinte linha de instrução:
 ``` bash
 127.0.0.1     www.virtualizacao.com
 ``` 
