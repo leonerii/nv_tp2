@@ -14,7 +14,6 @@ services:
     volumes:
       - ftphttp:/home/vsftpd
     environment:
-      FTP_USER_HOME: "/opt"
       FTP_USER: "admin"
       FTP_PASS: "admin"
     networks:
