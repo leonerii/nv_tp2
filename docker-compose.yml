@@ -12,8 +12,9 @@ services:
       - "47400-47470:47400-47470"
       # - "2201:22"
     volumes:
-      - ftphttp:/opt
+      - ftphttp:/home/vsftpd
     environment:
+      FTP_USER_HOME: "/opt"
       FTP_USER: "admin"
       FTP_PASS: "admin"
     networks:
@@ -49,8 +50,8 @@ services:
     image: nginx:1.18-alpine
     restart: always
     ports:
-      - "82:80"
-      - "444:443"
+      - "80:80"
+      - "443:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./certs:/etc/nginx/certs
