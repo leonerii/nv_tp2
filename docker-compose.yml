@@ -7,9 +7,10 @@ services:
     image: matheusgoncalves/ftpserver:latest
     restart: always
     ports:
-      - "2000:20"
-      - "2100:21"
-      - "2200:22"
+      - "2001:20"
+      - "2101:21"
+      - "47400-47470:47400-47470"
+      # - "2201:22"
     volumes:
       - ftphttp:/opt
     environment:
@@ -48,8 +49,8 @@ services:
     image: nginx:1.18-alpine
     restart: always
     ports:
-      - "80:80"
-      - "443:443"
+      - "82:80"
+      - "444:443"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./certs:/etc/nginx/certs
